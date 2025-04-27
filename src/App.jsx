@@ -171,6 +171,7 @@ function App() {
 
   const [query, setQuery] = useState("")
   const [suggestions, setSuggestions] = useState([])
+  const [details, setDetails] = useState({})
 
   async function loadSuggestions(query) {
     if (!query.trim()) {
@@ -193,6 +194,10 @@ function App() {
     debouncedFetch(query)
   }, [query])
 
+  const getDetails = async (id) => {
+    const productsDetails = await fetchData(`https://boolean-spec-frontend.vercel.app/freetestapi/products/${id}`)
+    setDetails(productsDetails)
+  }
 
   return (
 
@@ -212,12 +217,23 @@ function App() {
             </form>
           </div>
         </nav>
-        <div className='tendina d-flex justify-content-end'>
+
+        {suggestions.length > 0 && <div className='tendina d-flex justify-content-end'>
           <ul className="list-group w-25 mx-1">
-            {suggestions.length > 0 && suggestions.map((suggestions) => <li key={suggestions.id} className="list-group-item">{suggestions.name}</li>)}
+            {suggestions.map((suggestions) => <button onClick={() => { getDetails(suggestions.id) }} key={suggestions.id} className="list-group-item">{suggestions.name}</button>)}
           </ul>
-        </div>
-      </header>
+        </div>}
+        {details.name &&
+          <div className="card col-6" style={{ width: "400px", marginLeft: "30px" }} >
+            <img src={details.image} class="card-img-top" alt={details.name} />
+            <div className="card-body">
+              <h5 className="card-title">{details.name}</h5>
+              <p className="card-text">{details.description}</p>
+              <a className="btn btn-primary">{details.price + "$"}</a>
+            </div>
+          </div>}
+
+      </header >
       <main>
 
       </main>
