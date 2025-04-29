@@ -172,7 +172,6 @@ function App() {
   const [query, setQuery] = useState("")
   const [suggestions, setSuggestions] = useState([])
   const [details, setDetails] = useState({})
-  const [show, setShow] = useState(false)
 
   async function loadSuggestions(query) {
     if (!query.trim()) {
@@ -221,7 +220,7 @@ function App() {
           </div>
         </nav>
 
-        {(suggestions.length > 0 && show === false) && <div className='tendina d-flex justify-content-end z-1'>
+        {(suggestions.length > 0) && <div className='tendina d-flex justify-content-end z-1'>
           <ul className="list-group w-25 mx-1">
             {suggestions.map((suggestions) => <button onClick={() => { getDetails(suggestions.id) }} key={suggestions.id} className="list-group-item">{suggestions.name}</button>)}
           </ul>
